@@ -30,7 +30,7 @@ const setupServer = () => {
     });
   });
 
-  app.get('/contacts/:contactId', async (req, res) => {
+  app.get("/contacts/:_id", async (req, res) => {
     const { _id } = req.params;
     const data = await getContactById(_id);
 
@@ -48,11 +48,18 @@ const setupServer = () => {
     });
   });
 
-  app.use('*', (req, res, next) => {
+  app.use((req, res) => {
     res.status(404).json({
-      message: 'Not found',
+      message: `${req.url} not found`,
     });
   });
+
+
+  app.use((error, req, res)=> {
+    res.status(500).json({
+        message: error.message,
+    });
+});
 
   app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 };
