@@ -13,14 +13,6 @@ const setupServer = () => {
 
   app.use(cors());
 
-  // app.use(
-  //   pino({
-  //     transport: {
-  //       target: 'pino-pretty',
-  //     },
-  //   }),
-  // );
-
   const logger = pino({
     transport: {
       target: 'pino-pretty',
