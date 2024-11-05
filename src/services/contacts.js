@@ -9,8 +9,8 @@ export const postContact = async (payload) => {
   return contact;
 };
 
-export const deleteContact = async (contactId) => {
-  const contact = await ContactsCollection.findOneAndDelete({ _id: contactId });
+export const deleteContact = async (_id) => {
+  const contact = await ContactsCollection.findOneAndDelete({ _id });
 
   return contact;
 };
