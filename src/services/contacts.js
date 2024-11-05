@@ -10,7 +10,7 @@ export const postContact = async (payload) => {
 };
 
 export const deleteContact = async (_id) => {
-  const contact = await ContactsCollection.findOneAndDelete({ _id });
+  const contact = await ContactsCollection.findOneAndDelete({ _id: _id });
 
   return contact;
 };
