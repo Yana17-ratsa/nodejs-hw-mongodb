@@ -14,7 +14,7 @@ export const getContactsController = async (req, res, next) => {
   try {
     const { page, perPage } = parsePaginationParams(req.query);
 
-    const {sortBy, sortOrder} = parseSortParams(req.query);
+    const { sortBy, sortOrder } = parseSortParams(req.query);
     const data = await getContacts({
       page,
       perPage,
@@ -76,8 +76,6 @@ export const updateContact = async (studentId, payload, options = {}) => {
     student: rawResult.value,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
-
-
 };
 
 export const patchContactController = async (req, res, next) => {
@@ -92,7 +90,7 @@ export const patchContactController = async (req, res, next) => {
   res.json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: result,
+    data: result.student,
   });
 };
 
