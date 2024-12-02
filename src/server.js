@@ -18,8 +18,6 @@ const setupServer = () => {
 
   app.use(cors());
 
-  app.use(cookieParser);
-
   const logger = pino({
     transport: {
       target: 'pino-pretty',
