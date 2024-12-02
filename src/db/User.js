@@ -1,18 +1,30 @@
 import { model, Schema } from 'mongoose';
 
+import { emailRegexp } from '../constants/index.js';
+
 const userSchema = new Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    username: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      match: emailRegexp,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  { timestamps: true, versionKey: false },
+  {
+    versionKey: false,
+    timestamps: true,
+  },
 );
 
-userSchema.methods.toJSON = function () {
-  const obj = this.toObject();
-  delete obj.password;
-  return obj;
-};
+const UserCollection = model('user', userSchema);
 
-export const UsersCollection = model('users', userSchema);
+export default UserCollection;
