@@ -7,7 +7,7 @@ import { logoutUser } from '../services/auth.js';
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
-  res.starus(201).json({
+  res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
     data: user,
