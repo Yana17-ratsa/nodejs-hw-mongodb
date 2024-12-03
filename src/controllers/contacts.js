@@ -13,7 +13,7 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 export const getContactsController = async (req, res, next) => {
   try {
     const { page, perPage } = parsePaginationParams(req.query);
-
+    
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const { _id: userId } = req.user;
     const data = await getContacts({
@@ -80,6 +80,8 @@ export const updateContact = async (studentId, payload, options = {}) => {
     student: rawResult.value,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
+
+
 };
 
 export const patchContactController = async (req, res, next) => {
