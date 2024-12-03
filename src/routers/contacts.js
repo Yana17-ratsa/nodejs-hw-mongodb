@@ -8,17 +8,11 @@ import {
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import {
-  createContactsSchema,
-  updateContactsSchema,
-} from '../validation/contacts.js';
+import { createContactsSchema, updateContactsSchema } from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { registerUserController } from '../controllers/auth.js';
 
 const router = Router();
-
-router.use(authenticate);
 
 router.get('/', ctrlWrapper(getContactsController));
 
@@ -30,14 +24,10 @@ router.post(
   ctrlWrapper(registerUserController),
 );
 
-router.post(
-  '/contacts',
-  validateBody(createContactsSchema),
-  ctrlWrapper(postContactController),
-);
+router.post('/contacts', validateBody(createContactsSchema), ctrlWrapper(postContactController));
 
 router.patch(
-  '/:_id',
+  '/contacts/:_id',
   validateBody(updateContactsSchema),
   isValidId,
   ctrlWrapper(patchContactController),
