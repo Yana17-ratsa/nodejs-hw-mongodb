@@ -15,10 +15,14 @@ const setupSession = (res, session) => {
 export const registerController = async (req, res) => {
   const data = await authServices.register(req.body);
 
+  const user = data.toObject();
+  // eslint-disable-next-line no-unused-vars
+  const { password, ...safeData } = user;
+
   res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
-    data: data,
+    data: safeData,
   });
 };
 
@@ -60,4 +64,3 @@ export const logoutController = async (req, res) => {
 
   res.status(204).send();
 };
-

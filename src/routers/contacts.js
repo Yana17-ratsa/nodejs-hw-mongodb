@@ -21,7 +21,7 @@ router.use(authenticate); //буде застосовуватися до всї 
 
 router.get('/', ctrlWrapper(getContactsController));
 
-router.get('/:_id', isValidId, ctrlWrapper(getContactsByIdController));
+router.get('/:id', isValidId, ctrlWrapper(getContactsByIdController));
 
 router.post(
   '/',

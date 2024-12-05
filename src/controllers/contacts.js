@@ -3,14 +3,13 @@ import {
   getContactById,
   postContact,
   deleteContact,
-  updateContact
+  updateContact,
 } from '../services/contacts.js';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-import {parseFilterParams} from '../utils/parseFilterParams.js';
-
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getContactsController = async (req, res, next) => {
   try {
@@ -28,7 +27,7 @@ export const getContactsController = async (req, res, next) => {
       sortOrder,
       filter,
     });
-    res.json({
+    res.status(200).json({
       status: 200,
       message: 'Successfully found contacts!',
       data,
@@ -39,17 +38,21 @@ export const getContactsController = async (req, res, next) => {
 };
 
 export const getContactsByIdController = async (req, res) => {
-  const { _id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    throw createHttpError(404, 'Contact not found');
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+
+  // console.log(id, userId);
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw createHttpError(400, 'Contact id not found');
   }
-  const data = await getContactById(_id);
+  const data = await getContactById(id, userId);
 
   if (!data) {
     throw createHttpError(404, 'Contact not found');
   }
 
-  res.json({
+  res.status(200).json({
     status: 200,
     message: 'Successfully found contact!',
     data,
@@ -68,11 +71,9 @@ export const postContactController = async (req, res) => {
   });
 };
 
-
-
 export const patchContactController = async (req, res, next) => {
   const { _id } = req.params;
-  const { _id: userId} = req.user;
+  const { _id: userId } = req.user;
   const result = await updateContact(_id, req.body, userId);
 
   if (!result) {
@@ -89,7 +90,7 @@ export const patchContactController = async (req, res, next) => {
 
 export const deleteContactController = async (req, res, next) => {
   const { _id } = req.params;
-  const {_id: userId} = req.user;
+  const { _id: userId } = req.user;
 
   const contact = await deleteContact(_id, userId);
 
