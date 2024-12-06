@@ -16,7 +16,7 @@ export const authLoginSchema = Joi.object({
 
 //для надсилання листа з посиланням на скид пароля
 export const requestResetEmailSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
+  email: Joi.string().email().required(),
 });
 
 //встановити новий пароль
