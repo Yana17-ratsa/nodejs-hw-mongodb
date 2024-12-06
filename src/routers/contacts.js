@@ -30,7 +30,7 @@ router.post(
 );
 
 router.patch(
-  '/:_id',
+  '/:id',
   validateBody(updateContactsSchema),
   isValidId,
   ctrlWrapper(patchContactController),
