@@ -7,10 +7,14 @@ import {
   accessTokenLifetime,
   refreshTokenLifetime,
   SMTP,
+  TEMP_UPLOAD_DIR,
 } from '../constants/index.js';
 import { sendEmail } from '../utils/sendMail.js';
 import { env } from '../utils/env.js';
 import jwt from 'jsonwebtoken';
+import handlebars from 'handlebars';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
@@ -98,10 +102,11 @@ export const findUser = (filter) => UserCollection.findOne(filter);
 export const requestResetToken = async (email) => {
   const user = await UserCollection.findOne({ email });
 
-
   if (!user) {
     throw createHttpError(404, 'User not found!');
   }
+
+  // console.log(user);
 
   const resetToken = jwt.sign(
     {
@@ -114,16 +119,28 @@ export const requestResetToken = async (email) => {
     },
   );
 
+  const resetPasswordTemplatePath = path.join(
+    TEMP_UPLOAD_DIR,
+    'reset-password-email.html',
+  );
+
+  const templateSource = (
+    await fs.readFile(resetPasswordTemplatePath)
+  ).toString();
+
+  const template = handlebars.compile(templateSource);
+  const html = template({
+    name: user.name,
+    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+  });
 
   await sendEmail({
     from: env(SMTP.SMTP_FROM),
     to: email,
     subject: 'Reset your password',
-    html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
+    html,
   });
-
 };
-
 
 export const resetPassword = async (payload) => {
   let entries;

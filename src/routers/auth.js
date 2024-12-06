@@ -31,11 +31,15 @@ authRouter.post(
 authRouter.post(
   '/send-reset-email',
   validateBody(requestResetEmailSchema),
-  ctrlWrapper(authConrollers.requestResetEmail),
+  ctrlWrapper(authConrollers.requestResetEmailController),
 );
 
 authRouter.post('/logout', ctrlWrapper(authConrollers.logoutController));
 
-authRouter.post('/reset-pwd', validateBody(resetPasswordSchema), ctrlWrapper(authConrollers.resetPasswordController));
+authRouter.post(
+  '/reset-pwd',
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(authConrollers.resetPasswordController),
+);
 
 export default authRouter;
