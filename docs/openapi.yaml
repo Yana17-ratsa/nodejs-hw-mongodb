@@ -13,7 +13,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:4000
-  - url: https://nodejs-hw-mongodb-18-dob6.onrender.com
+  - url: https://nodejs-hw-mongodb-21-1crq.onrender.com
 paths:
   /contacts:
     get:
